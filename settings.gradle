@@ -1,0 +1,11 @@
+rootProject.name = 'hotel-booking'
+
+include(
+    'common-events',
+    'common-api',
+    'booking-service',
+    'auth-service',
+    'payment-service',
+    'notification-service',
+    'review-service'
+)
