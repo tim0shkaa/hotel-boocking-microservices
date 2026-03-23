@@ -118,8 +118,13 @@
 | GET | `/hotels/{id}` | ANY | Детальная информация об отеле с RoomType и текущими минимальными ценами. |
 | POST | `/hotels` | ADMIN | Создать отель. |
 | PUT | `/hotels/{id}` | ADMIN, HOTEL_MANAGER | Обновить данные отеля. |
+| POST | `/hotels/{id}/activate` | ADMIN | Активировать отель. |
+| POST | `/hotels/{id}/deactivate` | ADMIN | Деактивировать отель. |
 | GET | `/hotels/{id}/availability` | ANY | Поиск доступных типов номеров на заданные даты. checkIn, checkOut в query params. Кэшируется в Redis. |
 | POST | `/hotels/{id}/room-types` | ADMIN, HOTEL_MANAGER | Добавить тип номера в отель. |
+| GET | `/room-types/{id}/rooms` | ADMIN, HOTEL_MANAGER | Список номеров типа. |
+| POST | `/room-types/{id}/rooms` | ADMIN, HOTEL_MANAGER | Добавить физический номер к типу. |
+| PUT | `/rooms/{id}/status` | ADMIN, HOTEL_MANAGER | Изменить статус номера (AVAILABLE/MAINTENANCE/OUT_OF_SERVICE). |
 | POST | `/room-types/{id}/tariffs` | ADMIN, HOTEL_MANAGER | Добавить тариф на тип номера. |
 | GET | `/room-types/{id}/tariffs` | ANY | Список актуальных тарифов для типа номера. |
 | POST | `/bookings` | GUEST | Создать бронирование (guestId, roomTypeId, tariffId, checkIn, checkOut). Ответ: bookingId + ссылка на оплату. Distributed lock на roomTypeId+период. |
@@ -130,7 +135,6 @@
 | POST | `/bookings/{id}/check-in` | ADMIN, HOTEL_MANAGER | Отметить заезд гостя. |
 | POST | `/bookings/{id}/check-out` | ADMIN, HOTEL_MANAGER | Отметить выезд. Booking переходит в COMPLETED. Публикует booking.completed. |
 | GET | `/audit/bookings/{id}` | ADMIN | История событий из event_audit по bookingId. |
-
 ### 3.2 auth-service
 
 | Метод | Путь | Роль | Описание |
