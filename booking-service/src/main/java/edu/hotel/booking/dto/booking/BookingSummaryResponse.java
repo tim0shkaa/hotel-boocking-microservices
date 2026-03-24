@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class bookingSummaryResponse {
+public class BookingSummaryResponse {
 
     private Long id;
 

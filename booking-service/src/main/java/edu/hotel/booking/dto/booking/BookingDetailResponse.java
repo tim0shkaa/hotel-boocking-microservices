@@ -1,5 +1,6 @@
 package edu.hotel.booking.dto.booking;
 
+import edu.hotel.booking.dto.guest.GuestResponse;
 import edu.hotel.booking.dto.room.RoomSummaryResponse;
 import edu.hotel.booking.dto.audit.BookingStatusHistoryResponse;
 import edu.hotel.booking.model.BookingStatus;
@@ -26,6 +27,8 @@ public class BookingDetailResponse {
     private BigDecimal totalPrice;
 
     private Currency currency;
+
+    private GuestResponse guest;
 
     private String notes;
 

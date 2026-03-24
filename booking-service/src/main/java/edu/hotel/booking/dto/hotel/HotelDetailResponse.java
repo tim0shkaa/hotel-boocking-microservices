@@ -24,5 +24,5 @@ public class HotelDetailResponse {
 
     private Double avgRating;
 
-    private List<RoomTypeResponse> roomTypeResponses;
+    private List<RoomTypeResponse> roomTypes;
 }
