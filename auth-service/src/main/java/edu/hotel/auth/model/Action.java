@@ -5,5 +5,6 @@ public enum Action {
     LOGOUT,
     REGISTER,
     PASSWORD_CHANGE,
-    ACCESS_DENIED
+    ACCESS_DENIED,
+    REFRESH_TOKEN
 }
