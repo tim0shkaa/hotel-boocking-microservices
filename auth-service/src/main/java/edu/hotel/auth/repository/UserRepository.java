@@ -15,8 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = """
         SELECT * FROM users
-        WHERE (:role IS NULL OR role = :role)
-        AND (:active IS NULL OR active = :active)
+            WHERE (CAST(:role AS VARCHAR) IS NULL OR role = CAST(:role AS VARCHAR))
+            AND (CAST(:active AS BOOLEAN) IS NULL OR active = CAST(:active AS BOOLEAN))
         """,
             countQuery = """
         SELECT COUNT(*) FROM users
