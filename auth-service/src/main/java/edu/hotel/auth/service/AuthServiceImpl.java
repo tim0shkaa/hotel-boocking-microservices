@@ -7,6 +7,7 @@ import edu.hotel.auth.dto.user.*;
 import edu.hotel.auth.entity.AuditLog;
 import edu.hotel.auth.entity.RefreshToken;
 import edu.hotel.auth.entity.User;
+import edu.hotel.common.exception.AlreadyExistsException;
 import edu.hotel.auth.exception.AuthException;
 import edu.hotel.common.exception.NotFoundException;
 import edu.hotel.auth.mapper.AuditLogMapper;
@@ -53,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             RegisterRequest request, String ipAddress, String userAgent) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new AuthException("Пользователь с таким email уже существует");
+            throw new AlreadyExistsException("Пользователь с таким email уже существует");
         }
 
         User user = new User();
