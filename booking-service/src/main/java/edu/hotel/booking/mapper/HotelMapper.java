@@ -4,8 +4,10 @@ import edu.hotel.booking.dto.hotel.HotelDetailResponse;
 import edu.hotel.booking.dto.hotel.HotelRequest;
 import edu.hotel.booking.dto.hotel.HotelSummaryResponse;
 import edu.hotel.booking.entity.Hotel;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", uses = {RoomTypeMapper.class})
 public interface HotelMapper{
@@ -16,5 +18,6 @@ public interface HotelMapper{
 
     HotelDetailResponse toDetailResponse(Hotel hotel);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(HotelRequest request, @MappingTarget Hotel hotel);
 }
