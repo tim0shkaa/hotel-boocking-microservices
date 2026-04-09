@@ -1,11 +1,13 @@
 package edu.hotel.payment.service;
 
 import edu.hotel.common.exception.NotFoundException;
+import edu.hotel.payment.dto.payment.PaymentRequest;
 import edu.hotel.payment.dto.payment.PaymentResponse;
 import edu.hotel.payment.entity.Payment;
 import edu.hotel.payment.entity.PaymentAttempt;
 import edu.hotel.payment.exception.InvalidPaymentStatusException;
 import edu.hotel.payment.mapper.PaymentMapper;
+import edu.hotel.payment.model.AttemptStatus;
 import edu.hotel.payment.model.PaymentStatus;
 import edu.hotel.payment.provider.MockPaymentProvider;
 import edu.hotel.payment.repository.PaymentAttemptRepository;
@@ -41,6 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (paymentRepository.findByBookingId(bookingId).isPresent()) {
             return;
         }
+
         Payment payment = new Payment();
         payment.setBookingId(bookingId);
         payment.setGuestId(guestId);
@@ -54,7 +57,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public PaymentResponse processPayment(Long bookingId) {
+    public PaymentResponse processPayment(PaymentRequest request) {
+
+        Long bookingId = request.getBookingId();
 
         Payment payment = paymentRepository.findByBookingId(bookingId)
                 .orElseThrow(() -> new NotFoundException("Платежа с bookingId: " + bookingId + " не существует"));
@@ -68,6 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentAttempt attempt = new PaymentAttempt();
         attempt.setAttemptNumber(1);
         attempt.setPayment(payment);
+        attempt.setStatus(AttemptStatus.IN_PROGRESS);
         paymentAttemptRepository.save(attempt);
 
         mockPaymentProvider.processPayment(payment.getId(), attempt.getId());

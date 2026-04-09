@@ -1,5 +1,6 @@
 package edu.hotel.payment.controller;
 
+import edu.hotel.payment.dto.payment.PaymentRequest;
 import edu.hotel.payment.dto.payment.PaymentResponse;
 import edu.hotel.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<PaymentResponse> processPayment(
-            @RequestBody Long bookingId) {
+            @RequestBody PaymentRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(paymentService.processPayment(bookingId));
+                .body(paymentService.processPayment(request));
     }
 
     @GetMapping("/{id}")

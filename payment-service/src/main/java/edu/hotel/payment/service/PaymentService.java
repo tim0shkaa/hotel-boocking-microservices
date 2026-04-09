@@ -1,5 +1,6 @@
 package edu.hotel.payment.service;
 
+import edu.hotel.payment.dto.payment.PaymentRequest;
 import edu.hotel.payment.dto.payment.PaymentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ public interface PaymentService {
     void initiatePayment(Long bookingId, Long guestId, BigDecimal amount, String currency);
 
     // POST /payments
-    PaymentResponse processPayment(Long bookingId);
+    PaymentResponse processPayment(PaymentRequest request);
 
     // POST /payments/{id}/retry
     PaymentResponse retryPayment(Long paymentId);
