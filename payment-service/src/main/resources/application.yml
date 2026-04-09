@@ -17,3 +17,10 @@ server:
 
 jwt:
   public-key: classpath:keys/public.pem
+
+payment:
+  provider:
+    name: "MOCK"
+  mock:
+    delay-ms: 1000
+    success-probability: 0.7
