@@ -11,6 +11,7 @@ import edu.hotel.events.PaymentFailedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class PaymentEventConsumer {
     private final ProcessedEventRepository processedEventRepository;
 
     @KafkaListener(topics = KafkaTopics.PAYMENT_CONFIRMED, groupId = "booking-service-group")
+    @Transactional
     public void handlePaymentConfirmed(PaymentConfirmedEvent event) {
 
         if (processedEventRepository.existsByEventId(event.getEventId())) {
@@ -36,6 +38,7 @@ public class PaymentEventConsumer {
         Booking booking = bookingOpt.get();
 
         booking.setStatus(BookingStatus.CONFIRMED);
+        bookingRepository.save(booking);
 
         ProcessedEvent processedEvent = new ProcessedEvent();
         processedEvent.setEventId(event.getEventId());
@@ -44,6 +47,7 @@ public class PaymentEventConsumer {
     }
 
     @KafkaListener(topics = KafkaTopics.PAYMENT_FAILED, groupId = "booking-service-group")
+    @Transactional
     public void handlePaymentFailed(PaymentFailedEvent event) {
 
         if (processedEventRepository.existsByEventId(event.getEventId())) {

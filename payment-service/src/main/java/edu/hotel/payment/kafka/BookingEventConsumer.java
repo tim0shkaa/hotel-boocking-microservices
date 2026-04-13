@@ -13,6 +13,7 @@ import edu.hotel.payment.service.RefundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class BookingEventConsumer {
 
     private final RefundService refundService;
 
+    @Transactional
     @KafkaListener(topics = KafkaTopics.BOOKING_CREATED, groupId = "payment-service-group")
     public void handleBookingCreated(BookingCreatedEvent event) {
 
@@ -44,6 +46,7 @@ public class BookingEventConsumer {
         processedEventRepository.save(processedEvent);
     }
 
+    @Transactional
     @KafkaListener(topics = KafkaTopics.BOOKING_CANCELLED, groupId = "payment-service-group")
     public void handleBookingCancelled(BookingCancelledEvent event) {
 
