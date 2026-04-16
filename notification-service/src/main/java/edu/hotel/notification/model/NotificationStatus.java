@@ -1,6 +1,6 @@
 package edu.hotel.notification.model;
 
-public enum Status {
+public enum NotificationStatus {
     SENT,
     FAILED,
 }

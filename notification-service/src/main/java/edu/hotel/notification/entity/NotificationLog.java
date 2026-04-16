@@ -1,7 +1,7 @@
 package edu.hotel.notification.entity;
 
 import edu.hotel.notification.model.EventType;
-import edu.hotel.notification.model.Status;
+import edu.hotel.notification.model.NotificationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +35,7 @@ public class NotificationLog {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private NotificationStatus status;
 
     @Column(nullable = false)
     private String payload;
