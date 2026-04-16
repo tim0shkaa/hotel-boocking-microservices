@@ -169,14 +169,13 @@
 
 | Метод | Путь | Роль | Описание |
 |---|---|---|---|
-| POST | `/reviews` | GUEST | Создать отзыв. bookingId + оценки (1–5) + текст. Проверяет booking.status = COMPLETED. |
+| POST | `/reviews` | GUEST | Создать отзыв. bookingId + оценки (1–5) + текст. Проверяет наличие в eligible_bookings. |
 | GET | `/reviews/{id}` | ANY | Конкретный отзыв. |
 | GET | `/hotels/{hotelId}/reviews` | ANY | Отзывы об отеле. Пагинация, сортировка по дате / рейтингу. |
-| GET | `/room-types/{id}/reviews` | ANY | Отзывы на тип номера. |
+| GET | `/room-types/{id}/reviews` | ANY | Отзывы на тип номера. Пагинация, сортировка по дате / рейтингу. |
 | GET | `/hotels/{hotelId}/rating` | ANY | Агрегированный рейтинг отеля (из кэша Redis). |
 | POST | `/reviews/{id}/response` | HOTEL_MANAGER, ADMIN | Ответить на отзыв. |
 | DELETE | `/reviews/{id}` | ADMIN | Удалить отзыв (модерация). |
-
 ### 3.5 notification-service
 
 Сервис не имеет публичного REST API (только Actuator). Работает исключительно как Kafka consumer.
