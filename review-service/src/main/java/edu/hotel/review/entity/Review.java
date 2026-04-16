@@ -48,10 +48,7 @@ public class Review {
     @Column(nullable = false)
     private Integer valueRating;
 
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String body;
 
     @Column(nullable = false)

@@ -13,8 +13,7 @@ CREATE TABLE review
     service_rating      INTEGER                     NOT NULL,
     location_rating     INTEGER                     NOT NULL,
     value_rating        INTEGER                     NOT NULL,
-    title               VARCHAR(255)                NOT NULL,
-    body                TEXT                        NOT NULL,
+    body                TEXT,
     is_verified         BOOLEAN                     NOT NULL,
     created_at          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     CONSTRAINT pk_review PRIMARY KEY (id)
