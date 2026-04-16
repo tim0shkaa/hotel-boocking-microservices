@@ -90,12 +90,12 @@
 
 | Сущность | Ключевые поля | Примечание |
 |---|---|---|
-| `Review` | id, bookingId, guestId, hotelId, roomTypeId, overallRating, cleanlinessRating, serviceRating, locationRating, valueRating, title, body, createdAt, isVerified | isVerified = true если booking.status = COMPLETED в момент создания |
-| `ReviewResponse` | id, reviewId, authorId, body, createdAt | Ответ администратора отеля на отзыв гостя |
+| `Review` | id, bookingId, guestId, hotelId, roomTypeId, overallRating, cleanlinessRating, serviceRating, locationRating, valueRating, title, body, createdAt, isVerified | isVerified = true если бронирование есть в eligible_bookings |
+| `ReviewReply` | id, reviewId, authorId, body, createdAt | Ответ администратора отеля на отзыв гостя |
 | `RatingAggregate` | id, targetType (HOTEL/ROOM_TYPE), targetId, avgRating, totalReviews, ratingDistribution (jsonb) | Денормализованная агрегация. Обновляется при каждом новом review через Kafka. |
+| `EligibleBooking` | id, bookingId, guestId, hotelId, roomTypeId, createdAt | Заполняется при получении booking.completed из Kafka. Используется для проверки права на отзыв. |
 
-Гость может оставить отзыв только после завершения проживания (`booking.status = COMPLETED`). Один отзыв на одно бронирование. При создании review-service синхронно проверяет через REST, что booking существует и имеет статус COMPLETED.
-
+Гость может оставить отзыв только после завершения проживания. Один отзыв на одно бронирование. При создании отзыва `review-service` проверяет наличие записи в `eligible_bookings` по `bookingId` — без синхронного вызова в `booking-service`.
 ### 2.4 auth-service
 
 | Сущность | Ключевые поля | Примечание |
