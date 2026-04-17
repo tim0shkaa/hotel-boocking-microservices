@@ -12,7 +12,7 @@ public class RatingAggregateResponse {
 
     private TargetType targetType;
 
-    private BigDecimal avgRating;
+    private Double avgRating;
 
     private Integer totalReviews;
 

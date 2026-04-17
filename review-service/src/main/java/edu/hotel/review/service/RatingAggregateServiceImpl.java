@@ -41,7 +41,7 @@ public class RatingAggregateServiceImpl implements RatingAggregateService {
                     newAggregate.setTargetType(TargetType.HOTEL);
                     newAggregate.setTargetId(hotelId);
                     newAggregate.setTotalReviews(0);
-                    newAggregate.setAvgRating(BigDecimal.ZERO);
+                    newAggregate.setAvgRating(0.0);
                     return newAggregate;
                 });
 
@@ -59,14 +59,12 @@ public class RatingAggregateServiceImpl implements RatingAggregateService {
                     newAggregate.setTargetType(type);
                     newAggregate.setTargetId(targetId);
                     newAggregate.setTotalReviews(0);
-                    newAggregate.setAvgRating(BigDecimal.ZERO);
+                    newAggregate.setAvgRating(0.0);
                     return newAggregate;
                 });
 
-        BigDecimal newAvg = ratingAggregate.getAvgRating()
-                .multiply(BigDecimal.valueOf(ratingAggregate.getTotalReviews()))
-                .add(BigDecimal.valueOf(review.getOverallRating()))
-                .divide(BigDecimal.valueOf(ratingAggregate.getTotalReviews() + 1), 2, RoundingMode.HALF_UP);
+        Double newAvg = (ratingAggregate.getAvgRating() * ratingAggregate.getTotalReviews()
+                + review.getOverallRating()) / (ratingAggregate.getTotalReviews() + 1);
 
         ratingAggregate.setTotalReviews(ratingAggregate.getTotalReviews() + 1);
         ratingAggregate.setAvgRating(newAvg);

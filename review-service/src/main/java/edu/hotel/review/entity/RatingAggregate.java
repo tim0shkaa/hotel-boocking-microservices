@@ -28,8 +28,8 @@ public class RatingAggregate {
     @Column(nullable = false)
     private Long targetId;
 
-    @Column(nullable = false, precision = 3, scale = 2)
-    private BigDecimal avgRating;
+    @Column(nullable = false)
+    private Double avgRating;
 
     @Column(nullable = false)
     private Integer totalReviews;
