@@ -79,6 +79,7 @@ public class BookingServiceImpl implements BookingService {
                 .eventId(UUID.randomUUID().toString())
                 .eventType(KafkaTopics.BOOKING_CREATED)
                 .bookingId(savedBooking.getId())
+                .userId(userId)
                 .guestId(guest.getId())
                 .hotelId(room.getRoomType().getHotel().getId())
                 .roomTypeId(room.getRoomType().getId())
