@@ -16,7 +16,7 @@ public interface BookingService {
     BookingCreateResponse create(BookingCreateRequest request, Long userId);
 
     // GET /bookings/{id}
-    BookingDetailResponse getById(Long id);
+    BookingDetailResponse getById(Long id, Long userId, String role);
 
     // GET /bookings
     Page<BookingSummaryResponse> getBookingWithFilters(
@@ -28,7 +28,7 @@ public interface BookingService {
     );
 
     // POST /bookings/{id}/cancel
-    BookingDetailResponse cancelBooking(Long id, Long userId);
+    BookingDetailResponse cancelBooking(Long id, Long userId, String role);
 
     // POST bookings/{id}/check-in
     BookingDetailResponse checkInById(Long id, Long userId);

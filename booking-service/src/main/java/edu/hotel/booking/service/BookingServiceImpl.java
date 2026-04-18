@@ -10,6 +10,7 @@ import edu.hotel.booking.kafka.BookingEventProducer;
 import edu.hotel.booking.mapper.BookingMapper;
 import edu.hotel.booking.model.BookingStatus;
 import edu.hotel.booking.repository.*;
+import edu.hotel.common.exception.AccessDeniedException;
 import edu.hotel.common.exception.NotFoundException;
 import edu.hotel.common.model.KafkaTopics;
 import edu.hotel.events.BookingCancelledEvent;
@@ -102,9 +103,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookingDetailResponse getById(Long id) {
+    public BookingDetailResponse getById(Long id, Long userId, String role) {
+
         Booking booking = bookingRepository.findDetailById(id)
                 .orElseThrow(() -> new NotFoundException("Бронирование с id: " + id + " не найдено"));
+
+        if (role.equals("ROLE_GUEST") && !booking.getGuest().getUserId().equals(userId)) {
+            throw new AccessDeniedException("Нет доступа к чужому бронированию");
+        }
 
         return bookingMapper.toDetailResponse(booking);
     }
@@ -121,9 +127,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public BookingDetailResponse cancelBooking(Long id, Long userId) {
+    public BookingDetailResponse cancelBooking(Long id, Long userId, String role) {
         Booking booking = bookingRepository.findDetailById(id)
                 .orElseThrow(() -> new NotFoundException("Бронирование с id: " + id + " не найдено"));
+
+        if (role.equals("ROLE_GUEST") && !booking.getGuest().getUserId().equals(userId)) {
+            throw new AccessDeniedException("Нет доступа к чужому бронированию");
+        }
 
         if (booking.getStatus() != BookingStatus.PENDING_PAYMENT &&
                 booking.getStatus() != BookingStatus.CONFIRMED) {

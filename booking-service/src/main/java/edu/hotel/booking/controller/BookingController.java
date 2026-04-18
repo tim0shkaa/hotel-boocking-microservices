@@ -34,8 +34,12 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookingDetailResponse> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(bookingService.getById(id));
+    public ResponseEntity<BookingDetailResponse> getById(
+            @PathVariable("id") Long id,
+            Authentication authentication) {
+        Long userId = (Long) authentication.getPrincipal();
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        return ResponseEntity.ok(bookingService.getById(id, userId, role));
     }
 
     @GetMapping
@@ -56,7 +60,8 @@ public class BookingController {
             @PathVariable("id") Long id,
             Authentication authentication) {
         Long userId = (Long) authentication.getPrincipal();
-        BookingDetailResponse response = bookingService.cancelBooking(id, userId);
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        BookingDetailResponse response = bookingService.cancelBooking(id, userId, role);
         return ResponseEntity.ok(response);
     }
 
