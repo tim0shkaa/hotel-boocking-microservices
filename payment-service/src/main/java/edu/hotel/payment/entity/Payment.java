@@ -28,6 +28,9 @@ public class Payment {
     private Long bookingId;
 
     @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
     private Long guestId;
 
     @Column(nullable = false, precision = 10, scale = 2)
