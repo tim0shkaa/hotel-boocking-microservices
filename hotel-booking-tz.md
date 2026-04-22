@@ -274,11 +274,12 @@
 
 | Уровень | Инструменты | Что покрывать |
 |---|---|---|
-| Unit | JUnit 5, Mockito-Kotlin | Сервисы: бизнес-логика, маппинг, расчёт цены, валидация периодов. Цель: 70%+ покрытие сервисного слоя. |
-| Integration (slice) | `@DataJpaTest` + Testcontainers PostgreSQL | Repository: нетривиальные JPQL-запросы, N+1 проверки, constraint violations. |
+| Unit | JUnit 5, Mockito | Сервисы: бизнес-логика, маппинг, расчёт цены, валидация периодов, пересчёт рейтинга. Цель: 70%+ покрытие сервисного слоя. |
+| Integration (slice) | `@DataJpaTest` + Testcontainers PostgreSQL | Repository: нетривиальные JPQL/native запросы, N+1 проверки, constraint violations, JSONB фильтрация. |
 | Kafka Integration | EmbeddedKafka или Testcontainers Kafka | Consumer: опубликовать event вручную → убедиться что handler отработал корректно (проверить в БД). |
 | Web Layer | `@WebMvcTest` | Controllers: маппинг URL, HTTP-коды, сериализация, валидация входных данных, обработка ошибок. |
-| Full Integration (E2E) | `@SpringBootTest` + Testcontainers (Postgres + Kafka + Redis) | Сквозные сценарии: полный booking flow, double-booking protection, payment lifecycle. |
+| Security | `@WebMvcTest` + `@WithMockUser` | Проверить что роли работают корректно — GUEST не может вызвать ADMIN эндпоинты, анонимный пользователь получает 401. |
+| Full Integration (E2E) | `@SpringBootTest` + Testcontainers (Postgres + Kafka + Redis) | Сквозные сценарии: полный booking flow, double-booking protection, payment lifecycle, review после checkout, JWT blacklist. |
 
 ### 6.2 Обязательные E2E сценарии
 
